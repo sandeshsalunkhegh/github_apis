@@ -1,2 +1,2 @@
-# github_apis
+# Github APIs
 Implementation code for Github APIs
