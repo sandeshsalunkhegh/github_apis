@@ -6,34 +6,19 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
-
-	"github.com/joho/godotenv"
 )
 
-const GITHUB_BASE_URL = "https://api.github.com"
-const USER_NAME = "sandeshsalunkhegh"
-
-var GITHUB_ACCESS_TOKEN string
-
-func main() {
-
-	err := godotenv.Load("../secrets.env")
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	GITHUB_ACCESS_TOKEN = os.Getenv("GITHUB_ACCESS_TOKEN")
-	Bearer := fmt.Sprintf("Bearer %s", GITHUB_ACCESS_TOKEN)
+func get_repositories(client *http.Client, Bearer string) []Repository {
 
 	fetch_repositories_url := fmt.Sprintf("%s/users/%s/repos", GITHUB_BASE_URL, USER_NAME)
+
 	req, err := http.NewRequest("GET", fetch_repositories_url, nil)
 	if err != nil {
 		log.Fatalln(err)
 	}
 	req.Header.Set("Authorization", Bearer)
+	req.Header.Set("Accept", "application/vnd.github+json")
 
-	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Println("Error on response.\n[ERROR] -", err)
@@ -52,7 +37,5 @@ func main() {
 		log.Println("Error while marshalling the response bytes:", err)
 	}
 
-	for i := range repositories {
-		fmt.Println(repositories[i])
-	}
+	return repositories
 }

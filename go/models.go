@@ -29,3 +29,21 @@ type Owner struct { // struct for the owner object
 	Repos_URL string `json:"repos_url"`
 	Type      string `json:"type"`
 }
+
+type PullRequest struct { // struct for the pull request object (not used)
+	URL      string `json:"url"`
+	ID       int    `json:"id"`
+	NodeID   string `json:"node_id"`
+	HTML_URL string `json:"html_url"`
+}
+
+type Commit struct { // struct for the commit object (not used)
+	URL string `json:"url"`
+	SHA string `json:"sha"`
+}
+
+type Branch struct { // struct for the branch object
+	Name      string `json:"name"`
+	Protected bool   `json:"protected"`
+	Commit    Commit `json:"commit"`
+}
