@@ -2,6 +2,4 @@ module main
 
 go 1.23.5
 
-require github.com/google/go-github v17.0.0+incompatible
-
-require github.com/google/go-querystring v1.1.0 // indirect
+require github.com/joho/godotenv v1.5.1
