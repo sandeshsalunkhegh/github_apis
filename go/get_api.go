@@ -8,8 +8,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/sandeshsalunkhegh/github_apis/go/models"
-
 	"github.com/joho/godotenv"
 )
 
@@ -28,8 +26,8 @@ func main() {
 	GITHUB_ACCESS_TOKEN = os.Getenv("GITHUB_ACCESS_TOKEN")
 	Bearer := fmt.Sprintf("Bearer %s", GITHUB_ACCESS_TOKEN)
 
-	organization_repositories_url := fmt.Sprintf("%s/users/%s/repos", GITHUB_BASE_URL, USER_NAME)
-	req, err := http.NewRequest("GET", organization_repositories_url, nil)
+	fetch_repositories_url := fmt.Sprintf("%s/users/%s/repos", GITHUB_BASE_URL, USER_NAME)
+	req, err := http.NewRequest("GET", fetch_repositories_url, nil)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -46,13 +44,14 @@ func main() {
 	if err != nil {
 		log.Println("Error while reading the response bytes:", err)
 	}
-	// repositories := string([]byte(body))
-	log.Println(json.Valid(body))
-	var repositories []models.Repository
+
+	var repositories []Repository
+
 	err = json.Unmarshal(body, &repositories)
 	if err != nil {
 		log.Println("Error while marshalling the response bytes:", err)
 	}
+
 	for i := range repositories {
 		fmt.Println(repositories[i])
 	}
